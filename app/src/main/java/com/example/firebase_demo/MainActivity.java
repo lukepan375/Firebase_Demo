@@ -1,5 +1,6 @@
 package com.example.firebase_demo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private boolean logon=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,5 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        if(!logon) {
+            startActivity(new Intent(this,LoginActivity.class));
+        }
+
     }
 }
