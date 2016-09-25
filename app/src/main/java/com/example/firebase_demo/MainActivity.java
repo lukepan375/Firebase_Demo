@@ -15,6 +15,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -29,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1);
         list.setAdapter(adapter);
 
+        //Get is logon or not.
         auth = FirebaseAuth.getInstance();
+        if(auth.getCurrentUser()!=null)
+            logon=true;
+
 
         //Start using FirebaseDB
         FirebaseDatabase db=FirebaseDatabase.getInstance();
@@ -94,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public boolean isLogon() {
+        return logon;
+    }
+
+    public void setLogon(boolean logon) {
+        this.logon = logon;
+    }
 
     @Override
     protected void onStart() {
@@ -105,10 +120,22 @@ public class MainActivity extends AppCompatActivity {
 
             //Add a user data if logon.
             FirebaseDatabase db = FirebaseDatabase.getInstance();
-            //Get the root of your data.
+            //Get the root of your data,and use this dbr to manipulate your Database..
             DatabaseReference dbr= db.getReference();
-            //"child" can let you insert the data ,will create it if not exists.
-            dbr.child(user.getUid()).child("nickname").setValue("Jack");
+            //"child" can let you insert the data ,will create it if the key is not exists.
+//            dbr.child("users").child(user.getUid()).child("latest_use_time").setValue(new Date().getTime());
+
+            //Add friend
+
+//            DatabaseReference users= db.getReference("users");
+
+            //create a friends list, and is has timestaamp
+//            DatabaseReference friends= users.child(user.getUid()).child("friends").push();
+//
+//            Map<String,Object> friend =new HashMap<>();
+//            friend.put("name","john_2");
+//            friends.setValue(friend);
+
         }else{
 
         }

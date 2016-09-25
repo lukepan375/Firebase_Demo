@@ -10,11 +10,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Date;
 
 import static com.example.firebase_demo.R.id.passwd;
 
@@ -22,6 +28,12 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private EditText edUserid;
     private EditText edPasswd;
+
+    //Google
+    GoogleSignInOptions googleSignInOptions;
+    GoogleApiClient googleApiClient;
+
+
     FirebaseAuth auth;
     FirebaseAuth.AuthStateListener authStateListener= new FirebaseAuth.AuthStateListener() {
         @Override
@@ -29,9 +41,19 @@ public class LoginActivity extends AppCompatActivity {
 
             //Like Parse we used before.
             FirebaseUser firebaseUser= firebaseAuth.getCurrentUser();
-            Log.d(TAG, "onAuthStateChanged:"+firebaseAuth.getCurrentUser().getUid());
             if(firebaseUser!=null){
+                Log.d(TAG, "onAuthStateChanged:"+firebaseAuth.getCurrentUser().getUid());
+
                 Toast.makeText(LoginActivity.this, "Login Success!!!", Toast.LENGTH_SHORT).show();
+
+                //Add a user data if logon.
+                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                //Get the root of your data,and use this dbr to manipulate your Database..
+                DatabaseReference dbr= db.getReference();
+                //"child" can let you insert the data ,will create it if the key is not exists.
+//                dbr.child("members").child(firebaseUser.getUid()).child("latest_use_time").setValue(new Date().getTime());
+                  LoginActivity.this.finish();
+
             }else{
                 Toast.makeText(LoginActivity.this, "Logged out.", Toast.LENGTH_SHORT).show();
             }
@@ -93,6 +115,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+    public void googleLogin(){
+        //requestIdToken("Your project id in google,you can find it at firebase console")
+
+//        googleSignInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .requestIdToken()
+//                .build();
+    }
+
 
     private void createUser(String email, String passwd) {
 
