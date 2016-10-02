@@ -1,12 +1,17 @@
 package com.example.firebase_demo;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -24,10 +29,20 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private boolean logon=false;
     private FirebaseAuth auth;
+    FirebaseAuth.AuthStateListener authStateListener= new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+            Log.d(TAG, "onAuthStateChanged:");
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d(TAG,"onCreate");
         setContentView(R.layout.activity_main);
         ListView list = (ListView) findViewById(R.id.list);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1);
@@ -35,9 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Get is logon or not.
         auth = FirebaseAuth.getInstance();
-        if(auth.getCurrentUser()!=null)
-            logon=true;
-
+        if(auth.getCurrentUser()!=null) {
+            Log.d(TAG,"getCurrentUser!=null");
+            logon = true;
+        }
 
         //Start using FirebaseDB
         FirebaseDatabase db=FirebaseDatabase.getInstance();
@@ -139,5 +155,17 @@ public class MainActivity extends AppCompatActivity {
         }else{
 
         }
+    }
+
+
+    public void logout(View v){
+        Log.d(TAG,"logging out!!");
+        auth = FirebaseAuth.getInstance();
+        if(auth.getCurrentUser()!=null) {
+            auth.signOut();
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,LoginActivity.class));
+        }
+
     }
 }

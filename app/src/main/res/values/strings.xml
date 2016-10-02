@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Firebase_demo</string>
+    <string name="pref_name">fire3</string>
+    <string name="pref_uid">PREF_USERID</string>
+    <string name="pref_email">PREF_EMAIL</string>
+
+    <string name="facebook_app_id">242851462783507</string>
 </resources>

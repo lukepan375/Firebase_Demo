@@ -46,13 +46,22 @@
         android:onClick="login" />
 
     <Button
-        android:text="Button"
+        android:text="googleLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginBtn"
         android:layout_alignLeft="@+id/loginBtn"
         android:layout_alignStart="@+id/loginBtn"
         android:layout_marginTop="27dp"
-        android:id="@+id/button3"
+        android:id="@+id/Google"
         android:onClick="googleLogin" />
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="com.facebook.login.widget.LoginButton"
+        android:layout_marginTop="53dp"
+        android:id="@+id/fbLogin"
+        android:layout_below="@+id/Google"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
